@@ -1,41 +1,56 @@
 import random
 
 #Proximos passos:
-#mudar carta 1 e carta dois pra usar a bibilhoteca do samu
-#Fazer split depois, mas bem depois
+#Fazer split
+#comentar e mudar nomes de variaves para ficar mais legivel(em processo)
+#ver se o "ale" e realmente nessesario, ou se ele pode exisitr apenas no escopo da função
 
 
 dinheiro = 50
 
-#FAZER ISSO FUNCIONAR COM O NOVO VETOR
-def dealar(aleatorio:int,total:int):
-    aleatorio = random.randint(0,numCartasSobrando)
-    valor = cartas[aleatorio]['valor']
-    carta = cartas[aleatorio]['card']
-
-    if (total + valor) > 21 and valor == 11:
-        total = valor + total - 10
-    else:
-        total = valor + total
-    return total, carta, aleatorio
-
-
-def acrescentador (randow:int, valores, cards, baralho, cartasSobrando:int):
-    auxValores = baralho[randow]['valor']
-    valores.append(auxValores)
-    auxCards = baralho[randow]['card']
-    cards.append(auxCards)
-    del baralho[randow]
-    cartasSobrando = cartasSobrando -1
+#Função para comprar cartas
+def dealar(Aleatorio:int,Total:int):
+    #Tira um numero aleatorio de 0 ate o numero de cartas que tem(no inicio e 51)
+    Aleatorio = random.randint(0,numCartasSobrando)
     
-    return valores, cards, baralho, cartasSobrando
+    #Passa o valor da carta tirada para "valor"
+    Valor = cartas[Aleatorio]['valor']
+    
+    #Passa o hexcode da carta para "carta"
+    carta = cartas[Aleatorio]['card']
+
+    #Testa para ver se a carta e um ás e se ele vai ter valor de 1 ou 11. Depois soma ao total
+    if (Total + Valor) > 21 and Valor == 11:
+        Total = Valor + Total - 10
+    else:
+        Total = Valor + Total
+        
+    #Retorna os pontos que vc ja tinha + carta nova, o hexcode da carta que vc tirou, e a poscição da carta no vetor
+    return Total, carta, Aleatorio
+
+#função para dar .append da nova carta para os vetores que guardam as cartas da sua mao e os valores dela, alem de tirar essa carta da bibilhoteca do baralho, para ela nao ser tirada de novo
+def acrescentador (Aleatorio:int, Valores, Cards, Baralho, CartasSobrando:int):
+    #adiciona o valor da carta ao vetor "valores"
+    AuxValores = Baralho[Aleatorio]['valor']
+    Valores.append(AuxValores)
+    
+    #adiciona o hexcode da carta ao vertr "cards"
+    AuxCards = Baralho[Aleatorio]['card']
+    Cards.append(AuxCards)
+    
+    #tira a carta do baralho, para ela nao ser tirada de novo
+    del Baralho[Aleatorio]
+    CartasSobrando = CartasSobrando -1
+    
+    #retorna o vetorValores + valor da carta nova, e o vetorCard + hexcode da carta nova, depois atualiza o baralho para ficar sem a carta retirada e anota que o baralho tem uma carta a menos.
+    return Valores, Cards, Baralho, CartasSobrando
 
 
 
 
 
 while dinheiro > 0:
-    #dicionario de todas as cartas
+    #dicionario de todas as cartas(fiz as 5 primeiras e pedi pra IA fazer o resto do baralho, como nao pede nenhuma logica, sendo so trabalho bruto, achei inteligente fazer isso.)
     cartas = [
     # === ESPADAS (Spades) ===
     {'card': "\U0001F0A1", 'valor': 11},  # Ás
@@ -98,19 +113,43 @@ while dinheiro > 0:
     {'card': "\U0001F0DE", 'valor': 10}   # Rei (K)
     ]
 
-    #cartas = list(range(2,12))
+
     #outras variaveis
+    
+    #O numero de cartas sobrando, pra saber o limite do random.randint
     numCartasSobrando = 51
+    
+    #auxiliar, geralmente segura o valor aleatorio gerado pelo random.randint(pocisao da carta na biblioteca)
     aux = 0
+    
+    #auxiliar em formato string, geralente segura o hexcode da carta retirada
     auxStr = ''
+    
+    #total de pontos do jogador
     player = 0
+    
+    #valores das cartas na mao do jogador
     valoresMao = []
+    
+    #cartas na mao do jogador
     cardMao = []
+    
+    #total de pontos da casa
     casa = 0
+    
+    #valores das cartas na mao da casa
     valoresCasa = []
-    start = 0
+    
+    #cartas ba nai da casa
     cardCasa = []
+    
+    #variavel para fazer "= input('---->')", feito pra da uma ritimada melhor no jogo
+    start = 0
+    
+    #variavel para segurar o valor aleatorio do random.randint dentro da função (nao tenho certeza se e nessesario, preciso olhar depois)
     ale = 0
+    
+    #variavel para saber o que o jogador vai fazer ("hit", "duble", "hit and duble")
     acao = '0'
 
     #tela de entrada
@@ -119,6 +158,7 @@ while dinheiro > 0:
     #enter pra iniciar o jogo
     start = input('"ENTER" pra jogar:')
     print(f"Você tem {dinheiro} reais")
+    
     #aposta
     while True:
         aposta = int(input("Quanto vc aposta:"))
@@ -132,6 +172,7 @@ while dinheiro > 0:
     casa, auxStr, aux = dealar(ale, casa,)
     valoresCasa, cardCasa, cartas, numCartasSobrando = acrescentador(aux,valoresCasa,cardCasa,cartas,numCartasSobrando)
     print (f"Casa: {cardCasa}({valoresCasa}), X")
+    
     #tirar a segunda carta e somar com o total da casa
     casa, auxStr, aux = dealar(ale, casa)
     valoresCasa, cardCasa, cartas, numCartasSobrando = acrescentador(aux,valoresCasa,cardCasa,cartas,numCartasSobrando)
@@ -140,44 +181,47 @@ while dinheiro > 0:
 
     #mostrar as duas primeiras cartas
     player, auxStr, aux = dealar(ale, player)
-    
-    #colocar isso em uma função(talvez ate a parte de cima)
     valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
-    
     print (f'Voce: {cardMao}({player})')
     player, auxStr, aux = dealar(ale, player)
     valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
-    print (f'Voce: {cardMao}({valoresMao})')
+    print (f'Voce: {cardMao}({valoresMao}), total:{player}')
+    
     #em caso de balackjack
     if player == 21:
         print(f"VOCE GANHOU COM UM BLACKJACK")
         print(cardMao)
         dinheiro = dinheiro + aposta * 2
+        
         #reiniciar ou terminar o jogo
         acao = input("jogar de novo? y/n: ")
         if acao == "y":
             continue
         elif acao == "n":
             break
-    print (f"Voce: {cardMao}({valoresMao}), Total: {player}")
 
     while acao != "":
+        
         #Ação do jogador
         acao = (input("O que fazer: Hit = 1, Double = 2, Hit and Double = 3, nada pra continuar:  "))
         match acao:
             case "1":
-                player, auxStr, ale = dealar(ale,player,)
-                cardMao.append(auxStr)
-                valoresMao.append()
-                print('voce tirou um ', carta1)
+                
+                #adicionar uma carta a mão
+                player, auxStr, aux = dealar(ale,player,)
+                valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
+                print(f'voce tirou um {auxStr}({cartas[aux]['valor']})')
             case "2":
+                
+                #dobra a aposta
                 aposta = aposta * 2
                 print("sua aposta agora é: ", aposta)
             case "3":
-                aux = player
-                player = dealar(ale,player)
-                carta1 = player - aux
-                print('voce tirou um ', carta1)
+                
+                #adiciona uma carta a mão e dobra a aposta
+                player, auxStr, aux = dealar(ale,player,)
+                valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
+                print(f'voce tirou um {auxStr}({cartas[aux]['valor']})')
                 aposta = aposta * 2
                 print("sua aposta agora é: ", aposta)
 
@@ -204,7 +248,7 @@ while dinheiro > 0:
     start = input("--->")
     #revelar pontuação total da casa
     print("vez da casa:")
-    print("pontuacao total da casa é: ", casa)
+    print(f"pontuacao total da casa é: {casa},({valoresCasa},{cardCasa})")
     #caso a casa tire um blackjack
     if casa == 21:
         print("CASA TIROU UM BLACKJACK")
@@ -221,24 +265,16 @@ while dinheiro > 0:
     while casa < 17:
         print("Casa hit")
 
-        #RESOLVE CARALHO FDP
-        '''
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        QQQQQQQQQQQQQQQQQQQQQ
-        UUUUUUUU
-        IIIIIIIIIIIIIII
-        '''
-
-
-        ale = random.choice(cartas)
         start = input("--->")
-        print("casa tirou: ", ale)
-        casa = ale + casa
-        print("pontuação da casa: ", casa)
+
+        #adicionar uma carta a mao da casa
+        casa,auxStr, aux = dealar(ale,casa)
+        print (f'casa tirou {auxStr}({cartas[aux]['valor']})')
+        print (f'total casa: {casa}, ({cardCasa}, {valoresCasa})')
 
     #teste caso casa perdeu
     if casa > 21:
-        print(f"Voce ganhou com {player} pontos, a casa perdeu com {casa} pontos.")
+        print(f"Voce ganhou com {player} pontos ({cardMao}, {valoresMao}), a casa perdeu com {casa} pontos ({cardCasa}, {valoresCasa}).")
         print(f"Voce ganhou {aposta * 2} reais.")
         dinheiro = dinheiro + aposta
         acao = input("jogar de novo? y/n: ")
@@ -248,7 +284,7 @@ while dinheiro > 0:
             break
 
     #mostrar pontos da casa e comparar pra ver quem ganhou
-    print(f"Casa tem {casa} pontos")
+    print(f"Casa tem {casa} pontos ({cardCasa}, {valoresCasa})")
     start = input("--->")
     print("vamos comparar")
     start = input("--->")
@@ -258,7 +294,8 @@ while dinheiro > 0:
     else:
         print(f"voce perdeu {aposta} reais, a casa tem {casa} pontos e voce tem {player} pontos")
         dinheiro = dinheiro - aposta
-
+        
+    #decidindo se vai jogar de novo ou fechar o jogo
     acao = input("jogar de novo? y/n: ")
     if acao == "y":
         continue
