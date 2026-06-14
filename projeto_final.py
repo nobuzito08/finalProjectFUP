@@ -100,7 +100,7 @@ while dinheiro > 0:
 
     #cartas = list(range(2,12))
     #outras variaveis
-    numCartasSobrando = 52
+    numCartasSobrando = 51
     aux = 0
     auxStr = ''
     player = 0
