@@ -302,4 +302,12 @@ while dinheiro > 0:
     elif acao == "n":
         break
 
+#textando se o wile quebrou por escolha, ou poque seu dinheiro acabou
+if dinheiro == 0:
+    print("voce perdeu todo seu dinheiro, estao te explusando do cassino, vai trabalhar.")
+    print('...')
+    print('')
+
 print("obrigado por jogar")
+
+print('')
