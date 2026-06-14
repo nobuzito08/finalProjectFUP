@@ -7,16 +7,83 @@ import random
 
 dinheiro = 50
 
-def dealar(n1:int,n2:int):
-    n1 = random.randint(2,12)
-    if n1 + n2 > 21 and n1 == 11:
-        n2 = n1 + n2 - 10
+#FAZER ISSO FUNCIONAR COM O NOVO VETOR
+def dealar(aleatorio:int,valor:int,total:int,carta):
+    aleatorio = random.randint(0,51)
+    valor = cartas[aleatorio]['valor']
+
+    if (total + valor) > 21 and valor == 11:
+        total = valor + total - 10
     else:
-        n2 = n1 + n2
+        total = valor + total
     return n2
 
 
 while dinheiro > 0:
+    #dicionario de todas as cartas
+    cartas = [
+    # === ESPADAS (Spades) ===
+    {'card': "\U0001F0A1", 'valor': 11},  # Ás
+    {'card': "\U0001F0A2", 'valor': 2},   # 2
+    {'card': "\U0001F0A3", 'valor': 3},   # 3
+    {'card': "\U0001F0A4", 'valor': 4},   # 4
+    {'card': "\U0001F0A5", 'valor': 5},   # 5
+    {'card': "\U0001F0A6", 'valor': 6},   # 6
+    {'card': "\U0001F0A7", 'valor': 7},   # 7
+    {'card': "\U0001F0A8", 'valor': 8},   # 8
+    {'card': "\U0001F0A9", 'valor': 9},   # 9
+    {'card': "\U0001F0AA", 'valor': 10},  # 10
+    {'card': "\U0001F0AB", 'valor': 10},  # Valete (J)
+    {'card': "\U0001F0AD", 'valor': 10},  # Dama (Q)
+    {'card': "\U0001F0AE", 'valor': 10},  # Rei (K)
+
+    # === COPAS (Hearts) ===
+    {'card': "\U0001F0B1", 'valor': 11},  # Ás
+    {'card': "\U0001F0B2", 'valor': 2},   # 2
+    {'card': "\U0001F0B3", 'valor': 3},   # 3
+    {'card': "\U0001F0B4", 'valor': 4},   # 4
+    {'card': "\U0001F0B5", 'valor': 5},   # 5
+    {'card': "\U0001F0B6", 'valor': 6},   # 6
+    {'card': "\U0001F0B7", 'valor': 7},   # 7
+    {'card': "\U0001F0B8", 'valor': 8},   # 8
+    {'card': "\U0001F0B9", 'valor': 9},   # 9
+    {'card': "\U0001F0BA", 'valor': 10},  # 10
+    {'card': "\U0001F0BB", 'valor': 10},  # Valete (J)
+    {'card': "\U0001F0BD", 'valor': 10},  # Dama (Q)
+    {'card': "\U0001F0BE", 'valor': 10},  # Rei (K)
+
+    # === OUROS (Diamonds) ===
+    {'card': "\U0001F0C1", 'valor': 11},  # Ás
+    {'card': "\U0001F0C2", 'valor': 2},   # 2
+    {'card': "\U0001F0C3", 'valor': 3},   # 3
+    {'card': "\U0001F0C4", 'valor': 4},   # 4
+    {'card': "\U0001F0C5", 'valor': 5},   # 5
+    {'card': "\U0001F0C6", 'valor': 6},   # 6
+    {'card': "\U0001F0C7", 'valor': 7},   # 7
+    {'card': "\U0001F0C8", 'valor': 8},   # 8
+    {'card': "\U0001F0C9", 'valor': 9},   # 9
+    {'card': "\U0001F0CA", 'valor': 10},  # 10
+    {'card': "\U0001F0CB", 'valor': 10},  # Valete (J)
+    {'card': "\U0001F0CD", 'valor': 10},  # Dama (Q)
+    {'card': "\U0001F0CE", 'valor': 10},  # Rei (K)
+
+    # === PAUS (Clubs) ===
+    {'card': "\U0001F0D1", 'valor': 11},  # Ás
+    {'card': "\U0001F0D2", 'valor': 2},   # 2
+    {'card': "\U0001F0D3", 'valor': 3},   # 3
+    {'card': "\U0001F0D4", 'valor': 4},   # 4
+    {'card': "\U0001F0D5", 'valor': 5},   # 5
+    {'card': "\U0001F0D6", 'valor': 6},   # 6
+    {'card': "\U0001F0D7", 'valor': 7},   # 7
+    {'card': "\U0001F0D8", 'valor': 8},   # 8
+    {'card': "\U0001F0D9", 'valor': 9},   # 9
+    {'card': "\U0001F0DA", 'valor': 10},  # 10
+    {'card': "\U0001F0DB", 'valor': 10},  # Valete (J)
+    {'card': "\U0001F0DD", 'valor': 10},  # Dama (Q)
+    {'card': "\U0001F0DE", 'valor': 10}   # Rei (K)
+]
+
+
     #lista de cartas possiveis do 21 (menos o 1, vejo isso depois)
     cartas = list(range(2,12))
     #outras variaveis
@@ -127,6 +194,16 @@ while dinheiro > 0:
     #ação da casa
     while casa < 17:
         print("Casa hit")
+
+        #RESOLVE CARALHO FDP
+        '''
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        QQQQQQQQQQQQQQQQQQQQQ
+        UUUUUUUU
+        IIIIIIIIIIIIIII
+        '''
+
+
         ale = random.choice(cartas)
         start = input("--->")
         print("casa tirou: ", ale)
