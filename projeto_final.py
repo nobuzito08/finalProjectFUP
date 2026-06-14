@@ -8,15 +8,30 @@ import random
 dinheiro = 50
 
 #FAZER ISSO FUNCIONAR COM O NOVO VETOR
-def dealar(aleatorio:int,valor:int,total:int,carta):
-    aleatorio = random.randint(0,51)
+def dealar(aleatorio:int,total:int):
+    aleatorio = random.randint(0,numCartasSobrando)
     valor = cartas[aleatorio]['valor']
+    carta = cartas[aleatorio]['card']
 
     if (total + valor) > 21 and valor == 11:
         total = valor + total - 10
     else:
         total = valor + total
-    return n2
+    return total, carta, aleatorio
+
+
+def acrescentador (randow:int, valores, cards, baralho, cartasSobrando:int):
+    auxValores = baralho[randow]['valor']
+    valores.append(auxValores)
+    auxCards = baralho[randow]['card']
+    cards.append(auxCards)
+    del baralho[randow]
+    cartasSobrando = cartasSobrando -1
+    
+    return valores, cards, baralho, cartasSobrando
+
+
+
 
 
 while dinheiro > 0:
@@ -81,17 +96,20 @@ while dinheiro > 0:
     {'card': "\U0001F0DB", 'valor': 10},  # Valete (J)
     {'card': "\U0001F0DD", 'valor': 10},  # Dama (Q)
     {'card': "\U0001F0DE", 'valor': 10}   # Rei (K)
-]
+    ]
 
-
-    #lista de cartas possiveis do 21 (menos o 1, vejo isso depois)
-    cartas = list(range(2,12))
+    #cartas = list(range(2,12))
     #outras variaveis
+    numCartasSobrando = 52
     aux = 0
-    carta1 = 0
-    carta2 = 0
+    auxStr = ''
+    player = 0
+    valoresMao = []
+    cardMao = []
     casa = 0
+    valoresCasa = []
     start = 0
+    cardCasa = []
     ale = 0
     acao = '0'
 
@@ -111,21 +129,29 @@ while dinheiro > 0:
 
 
     #mostrar a pontuação da casa com uma carta
-    casa = dealar(ale, casa)
-    print (f"Casa: {casa}, X")
+    casa, auxStr, aux = dealar(ale, casa,)
+    valoresCasa, cardCasa, cartas, numCartasSobrando = acrescentador(aux,valoresCasa,cardCasa,cartas,numCartasSobrando)
+    print (f"Casa: {cardCasa}({valoresCasa}), X")
     #tirar a segunda carta e somar com o total da casa
-    start = dealar(ale,casa)
-    casa = casa + start
+    casa, auxStr, aux = dealar(ale, casa)
+    valoresCasa, cardCasa, cartas, numCartasSobrando = acrescentador(aux,valoresCasa,cardCasa,cartas,numCartasSobrando)
 
     start = input("--->")
 
     #mostrar as duas primeiras cartas
-    carta1 = dealar(ale,carta1)
-    carta2 = dealar(ale,carta2)
-    player = carta1 + carta2
+    player, auxStr, aux = dealar(ale, player)
+    
+    #colocar isso em uma função(talvez ate a parte de cima)
+    valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
+    
+    print (f'Voce: {cardMao}({player})')
+    player, auxStr, aux = dealar(ale, player)
+    valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
+    print (f'Voce: {cardMao}({valoresMao})')
     #em caso de balackjack
     if player == 21:
         print(f"VOCE GANHOU COM UM BLACKJACK")
+        print(cardMao)
         dinheiro = dinheiro + aposta * 2
         #reiniciar ou terminar o jogo
         acao = input("jogar de novo? y/n: ")
@@ -133,16 +159,16 @@ while dinheiro > 0:
             continue
         elif acao == "n":
             break
-    print (f"Voce: {carta1},{carta2}, Total: {player}")
+    print (f"Voce: {cardMao}({valoresMao}), Total: {player}")
 
     while acao != "":
         #Ação do jogador
         acao = (input("O que fazer: Hit = 1, Double = 2, Hit and Double = 3, nada pra continuar:  "))
         match acao:
             case "1":
-                aux = player
-                player = dealar(ale,player)
-                carta1 = player - aux
+                player, auxStr, ale = dealar(ale,player,)
+                cardMao.append(auxStr)
+                valoresMao.append()
                 print('voce tirou um ', carta1)
             case "2":
                 aposta = aposta * 2
