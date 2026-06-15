@@ -107,3 +107,12 @@ while acao != 0 :
                     acao = ''
                 case '2':
                     print ('Remover um jogo: ')
+                    print ('')
+                    
+                    auxAcao = str(input('escolher por nome do jogo(digite:jogo), \npor nome do autor(digite:autor) \npor nome de editor(digite:editor) \npor preco(digite:preço) \n ou por genero(digite genero)'))
+                    
+                    match auxAcao:
+                        case 'jogo':
+                            auxAcao = str(input('Digite o nome: '))
+                            
+                            for 
