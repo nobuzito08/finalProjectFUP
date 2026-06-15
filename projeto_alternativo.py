@@ -26,6 +26,10 @@ while acao != 0 :
             
             match acao:
                 case '1':
+                    
+                    print ('Adicionar um jogo: ')
+                    print ('')
+                    
                     auxBiblioteca['nome'] = str(input('Insira o nome do jogo: '))
                     auxBiblioteca['autor'] = str(input('Insira o nome do autor: '))
                     auxBiblioteca['editor'] = str(input('Insira o nome do editor: '))
@@ -92,5 +96,14 @@ while acao != 0 :
                         case '9':
                             auxBiblioteca['genero 2'] = 'Luta'
                             auxAcao = ''
+                    
+                    #adiciona o novo jogo ao vetor de jogos   
+                    jogos.append(auxBiblioteca)        
+                    
+                    #Mostra as informações do jogo adicionado
+                    print(auxBiblioteca)
+                    
+                    
                     acao = ''
-print(auxBiblioteca)
+                case '2':
+                    print ('Remover um jogo: ')
