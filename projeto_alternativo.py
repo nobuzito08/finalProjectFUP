@@ -2,8 +2,16 @@
 
 #sistema de gerenciamento de biblioteca de jogos
 
+#To do list:
+#Melhorar o sistema de busca, acho que posso fazer o sistema de busca que divide pela metade
+#Quando adicionar um jogo, ja botar em ordem alfabetica(n tenho ideia de como fazer)
+
 jogos = []
-auxBiblioteca = {
+auxVetor = []
+auxBiblioteca = {}
+auxStr = ''
+aux = 0
+TamplateBiblioteca = {
     'nome' : 'nome jogo',
     'autor' : 'nome autor',
     'editor' : 'nome editor',
@@ -12,7 +20,7 @@ auxBiblioteca = {
     'genero 1' : 'genero',
     'genero 2' : 'genero dois'
     }
-auxAcao = ''
+count = 0
 
 acao = str(input('1-Gerenciar Biblioteca \n2-procurar um jogo por nome \n3-procurar um jogo por genero \n0-sair \n:'))
 
@@ -30,78 +38,78 @@ while acao != 0 :
                     print ('Adicionar um jogo: ')
                     print ('')
                     
-                    auxBiblioteca['nome'] = str(input('Insira o nome do jogo: '))
-                    auxBiblioteca['autor'] = str(input('Insira o nome do autor: '))
-                    auxBiblioteca['editor'] = str(input('Insira o nome do editor: '))
-                    auxBiblioteca['preco'] = float(input('Insira o preco: '))
-                    auxBiblioteca['lancamento'] = str(input('Insira a data de lancamento(formato: DD/MM/AAAA): '))
-                    auxAcao = str(input('escolha um dos generos: \n1-Ação, \n2-Aventura, \n3-Tiro, \n4-RPG, \n5-Estrategia, \n6-Simulação, \n7-Sandbox, \n8-Puzzle, \n9-Luta \n:'))
+                    TamplateBiblioteca['nome'] = str(input('Insira o nome do jogo: '))
+                    TamplateBiblioteca['autor'] = str(input('Insira o nome do autor: '))
+                    TamplateBiblioteca['editor'] = str(input('Insira o nome do editor: '))
+                    TamplateBiblioteca['preco'] = float(input('Insira o preco: '))
+                    TamplateBiblioteca['lancamento'] = str(input('Insira a data de lancamento(formato: DD/MM/AAAA): '))
+                    auxStr = str(input('escolha um dos generos: \n1-Ação, \n2-Aventura, \n3-Tiro, \n4-RPG, \n5-Estrategia, \n6-Simulação, \n7-Sandbox, \n8-Puzzle, \n9-Luta \n:'))
                     
-                    match auxAcao:
+                    match auxStr:
                         case '1':
-                            auxBiblioteca['genero 1'] = 'Ação'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 1'] = 'Ação'
+                            auxStr = ''
                         case '2':
-                            auxBiblioteca['genero 1'] = 'Aventura'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 1'] = 'Aventura'
+                            auxStr = ''
                         case '3':
-                            auxBiblioteca['genero 1'] = 'Tiro'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 1'] = 'Tiro'
+                            auxStr = ''
                         case '4':
-                            auxBiblioteca['genero 1'] = 'RPG'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 1'] = 'RPG'
+                            auxStr = ''
                         case '5':
-                            auxBiblioteca['genero 1'] = 'Estratégia'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 1'] = 'Estratégia'
+                            auxStr = ''
                         case '6':
-                            auxBiblioteca['genero 1'] = 'Simulação'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 1'] = 'Simulação'
+                            auxStr = ''
                         case '7':
-                            auxBiblioteca['genero 1'] = 'Sandbox'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 1'] = 'Sandbox'
+                            auxStr = ''
                         case '8':
-                            auxBiblioteca['genero 1'] = 'Puzzle'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 1'] = 'Puzzle'
+                            auxStr = ''
                         case '9':
-                            auxBiblioteca['genero 1'] = 'Luta'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 1'] = 'Luta'
+                            auxStr = ''
                     
-                    auxAcao = str(input('escolha o segundo genero: \n1-Ação, \n2-Aventura, \n3-Tiro, \n4-RPG, \n5-Estrategia, \n6-Simulação, \n7-Sandbox, \n8-Puzzle, \n9-Luta \n:'))
+                    auxStr = str(input('escolha o segundo genero: \n1-Ação, \n2-Aventura, \n3-Tiro, \n4-RPG, \n5-Estrategia, \n6-Simulação, \n7-Sandbox, \n8-Puzzle, \n9-Luta \n:'))
                     
-                    match auxAcao:
+                    match auxStr:
                         case '1':
-                            auxBiblioteca['genero 2'] = 'Ação'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 2'] = 'Ação'
+                            auxStr = ''
                         case '2':
-                            auxBiblioteca['genero 2'] = 'Aventura'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 2'] = 'Aventura'
+                            auxStr = ''
                         case '3':
-                            auxBiblioteca['genero 2'] = 'Tiro'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 2'] = 'Tiro'
+                            auxStr = ''
                         case '4':
-                            auxBiblioteca['genero 2'] = 'RPG'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 2'] = 'RPG'
+                            auxStr = ''
                         case '5':
-                            auxBiblioteca['genero 2'] = 'Estratégia'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 2'] = 'Estratégia'
+                            auxStr = ''
                         case '6':
-                            auxBiblioteca['genero 2'] = 'Simulação'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 2'] = 'Simulação'
+                            auxStr = ''
                         case '7':
-                            auxBiblioteca['genero 2'] = 'Sandbox'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 2'] = 'Sandbox'
+                            auxStr = ''
                         case '8':
-                            auxBiblioteca['genero 2'] = 'Puzzle'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 2'] = 'Puzzle'
+                            auxStr = ''
                         case '9':
-                            auxBiblioteca['genero 2'] = 'Luta'
-                            auxAcao = ''
+                            TamplateBiblioteca['genero 2'] = 'Luta'
+                            auxStr = ''
                     
                     #adiciona o novo jogo ao vetor de jogos   
-                    jogos.append(auxBiblioteca)        
+                    jogos.append(TamplateBiblioteca)        
                     
                     #Mostra as informações do jogo adicionado
-                    print(auxBiblioteca)
+                    print(TamplateBiblioteca)
                     
                     
                     acao = ''
@@ -109,10 +117,36 @@ while acao != 0 :
                     print ('Remover um jogo: ')
                     print ('')
                     
-                    auxAcao = str(input('escolher por nome do jogo(digite:jogo), \npor nome do autor(digite:autor) \npor nome de editor(digite:editor) \npor preco(digite:preço) \n ou por genero(digite genero)'))
+                    auxStr = str(input('escolher por nome do jogo(digite:jogo), \npor nome do autor(digite:autor) \npor nome de editor(digite:editor) \npor preco(digite:preço) \n ou por genero(digite genero)'))
                     
-                    match auxAcao:
+                    
+                    
+                    acao = ''
+                    
+                    match auxStr:
                         case 'jogo':
-                            auxAcao = str(input('Digite o nome: '))
+                            auxStr = str(input('Digite o nome: '))
                             
-                            for 
+                            while count != 1:
+                                for item in jogos:
+                                    if jogos[item]['nome'].startwith(auxStr):
+                                        auxBiblioteca = jogos[item]
+                                        auxVetor.append(auxBiblioteca)
+                                print ('jogos encontrados: ')
+                                if len(auxVetor) == 0:
+                                    print ('nada encontrado')
+                                    count = 1
+                                for iten in auxVetor:
+                                    print (f' numero {iten}-{auxVetor[iten]}')
+                                aux = int(input('qual jogo escolher (digite o numero): '))
+                                print ('jogo escolhido: \n', auxVetor[aux])
+                                auxStr = str(input('Deletar jogo? (y/n): '))
+                                if auxStr == 'y':
+                                    jogos.remove(auxVetor[aux])
+                                    count = 1
+                                auxStr = str(input(('jogo nao deletado, quer tentar de novo?(y/n)')))
+                                if auxStr == 'n':
+                                    count = 1
+                                
+                                
+                            
