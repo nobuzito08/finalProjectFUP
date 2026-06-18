@@ -6,12 +6,46 @@
 #Melhorar o sistema de busca, acho que posso fazer o sistema de busca que divide pela metade
 #Quando adicionar um jogo, ja botar em ordem alfabetica(n tenho ideia de como fazer)
 
+def save(Jogos):
+    arquivo = open('dados.txt', 'w')
+    for jogo in jogos:
+        arquivo.write(f'{jogo['nome']};')
+        arquivo.write(f'{jogo['autor']};')
+        arquivo.write(f'{jogo['editor']};')
+        arquivo.write(f'{jogo['preco']};')
+        arquivo.write(f'{jogo['lancamento']};')
+        arquivo.write(f'{jogo['genero 1']};')
+        arquivo.write(f'{jogo['genero 2']}/n')
+
+def load():
+    arquivo = open('dados.txt', 'r')
+    linhas = arquivo.readlines()
+    for linha in linhas:
+        palavras = linha.split(';')
+        jogo['nome'] = palavras[0]
+        jogo['autor']
+        jogo['editor']
+        jogo['preco']
+        
+
+def busca(Pesquisa, Jogos):
+    contador = 0
+    while contador != 1:
+        for jogo in jogos:
+            if jogo['nome'].startwith(f'{Pesquisa}'):
+                jogo 
+
+
+
+
+
+
 jogos = []
 auxVetor = []
 auxBiblioteca = {}
 auxStr = ''
 aux = 0
-TamplateBiblioteca = {
+tamplateBiblioteca = {
     'nome' : 'nome jogo',
     'autor' : 'nome autor',
     'editor' : 'nome editor',
@@ -38,78 +72,79 @@ while acao != 0 :
                     print ('Adicionar um jogo: ')
                     print ('')
                     
-                    TamplateBiblioteca['nome'] = str(input('Insira o nome do jogo: '))
-                    TamplateBiblioteca['autor'] = str(input('Insira o nome do autor: '))
-                    TamplateBiblioteca['editor'] = str(input('Insira o nome do editor: '))
-                    TamplateBiblioteca['preco'] = float(input('Insira o preco: '))
-                    TamplateBiblioteca['lancamento'] = str(input('Insira a data de lancamento(formato: DD/MM/AAAA): '))
+                    tamplateBiblioteca['nome'] = str(input('Insira o nome do jogo: '))
+                    tamplateBiblioteca['autor'] = str(input('Insira o nome do autor: '))
+                    tamplateBiblioteca['editor'] = str(input('Insira o nome do editor: '))
+                    tamplateBiblioteca['preco'] = float(input('Insira o preco: '))
+                    tamplateBiblioteca['lancamento'] = str(input('Insira a data de lancamento(formato: DD/MM/AAAA): '))
                     auxStr = str(input('escolha um dos generos: \n1-Ação, \n2-Aventura, \n3-Tiro, \n4-RPG, \n5-Estrategia, \n6-Simulação, \n7-Sandbox, \n8-Puzzle, \n9-Luta \n:'))
                     
                     match auxStr:
                         case '1':
-                            TamplateBiblioteca['genero 1'] = 'Ação'
+                            tamplateBiblioteca['genero 1'] = 'Ação'
                             auxStr = ''
                         case '2':
-                            TamplateBiblioteca['genero 1'] = 'Aventura'
+                            tamplateBiblioteca['genero 1'] = 'Aventura'
                             auxStr = ''
                         case '3':
-                            TamplateBiblioteca['genero 1'] = 'Tiro'
+                            tamplateBiblioteca['genero 1'] = 'Tiro'
                             auxStr = ''
                         case '4':
-                            TamplateBiblioteca['genero 1'] = 'RPG'
+                            tamplateBiblioteca['genero 1'] = 'RPG'
                             auxStr = ''
                         case '5':
-                            TamplateBiblioteca['genero 1'] = 'Estratégia'
+                            tamplateBiblioteca['genero 1'] = 'Estratégia'
                             auxStr = ''
                         case '6':
-                            TamplateBiblioteca['genero 1'] = 'Simulação'
+                            tamplateBiblioteca['genero 1'] = 'Simulação'
                             auxStr = ''
                         case '7':
-                            TamplateBiblioteca['genero 1'] = 'Sandbox'
+                            tamplateBiblioteca['genero 1'] = 'Sandbox'
                             auxStr = ''
                         case '8':
-                            TamplateBiblioteca['genero 1'] = 'Puzzle'
+                            tamplateBiblioteca['genero 1'] = 'Puzzle'
                             auxStr = ''
                         case '9':
-                            TamplateBiblioteca['genero 1'] = 'Luta'
+                            tamplateBiblioteca['genero 1'] = 'Luta'
                             auxStr = ''
                     
                     auxStr = str(input('escolha o segundo genero: \n1-Ação, \n2-Aventura, \n3-Tiro, \n4-RPG, \n5-Estrategia, \n6-Simulação, \n7-Sandbox, \n8-Puzzle, \n9-Luta \n:'))
                     
                     match auxStr:
                         case '1':
-                            TamplateBiblioteca['genero 2'] = 'Ação'
+                            tamplateBiblioteca['genero 2'] = 'Ação'
                             auxStr = ''
                         case '2':
-                            TamplateBiblioteca['genero 2'] = 'Aventura'
+                            tamplateBiblioteca['genero 2'] = 'Aventura'
                             auxStr = ''
                         case '3':
-                            TamplateBiblioteca['genero 2'] = 'Tiro'
+                            tamplateBiblioteca['genero 2'] = 'Tiro'
                             auxStr = ''
                         case '4':
-                            TamplateBiblioteca['genero 2'] = 'RPG'
+                            tamplateBiblioteca['genero 2'] = 'RPG'
                             auxStr = ''
                         case '5':
-                            TamplateBiblioteca['genero 2'] = 'Estratégia'
+                            tamplateBiblioteca['genero 2'] = 'Estratégia'
                             auxStr = ''
                         case '6':
-                            TamplateBiblioteca['genero 2'] = 'Simulação'
+                            tamplateBiblioteca['genero 2'] = 'Simulação'
                             auxStr = ''
                         case '7':
-                            TamplateBiblioteca['genero 2'] = 'Sandbox'
+                            tamplateBiblioteca['genero 2'] = 'Sandbox'
                             auxStr = ''
                         case '8':
-                            TamplateBiblioteca['genero 2'] = 'Puzzle'
+                            tamplateBiblioteca['genero 2'] = 'Puzzle'
                             auxStr = ''
                         case '9':
-                            TamplateBiblioteca['genero 2'] = 'Luta'
+                            tamplateBiblioteca['genero 2'] = 'Luta'
                             auxStr = ''
                     
                     #adiciona o novo jogo ao vetor de jogos   
-                    jogos.append(TamplateBiblioteca)        
+                    jogos.append(tamplateBiblioteca)        
                     
                     #Mostra as informações do jogo adicionado
-                    print(TamplateBiblioteca)
+                    for key in tamplateBiblioteca.keys:
+                        print(tamplateBiblioteca.items)
                     
                     
                     acao = ''
@@ -128,25 +163,28 @@ while acao != 0 :
                             auxStr = str(input('Digite o nome: '))
                             
                             while count != 1:
-                                for item in jogos:
-                                    if jogos[item]['nome'].startwith(auxStr):
-                                        auxBiblioteca = jogos[item]
+                                for jogo in jogos:
+                                    if jogo['nome'].startwith(auxStr):
+                                        auxBiblioteca =jogo
                                         auxVetor.append(auxBiblioteca)
                                 print ('jogos encontrados: ')
                                 if len(auxVetor) == 0:
                                     print ('nada encontrado')
                                     count = 1
-                                for iten in auxVetor:
-                                    print (f' numero {iten}-{auxVetor[iten]}')
-                                aux = int(input('qual jogo escolher (digite o numero): '))
-                                print ('jogo escolhido: \n', auxVetor[aux])
-                                auxStr = str(input('Deletar jogo? (y/n): '))
-                                if auxStr == 'y':
-                                    jogos.remove(auxVetor[aux])
-                                    count = 1
-                                auxStr = str(input(('jogo nao deletado, quer tentar de novo?(y/n)')))
-                                if auxStr == 'n':
-                                    count = 1
-                                
+                                else:
+                                    for iten in auxVetor:
+                                        print (f' numero {iten}-{auxVetor[iten]}')
+                                    aux = int(input('qual jogo escolher (digite o numero): '))
+                                    print ('jogo escolhido: \n', auxVetor[aux])
+                                    auxStr = str(input('Deletar jogo? (y/n): '))
+                                    if auxStr == 'y':
+                                        jogos.remove(auxVetor[aux])
+                                        count = 1
+                                    auxStr = str(input(('jogo nao deletado, quer tentar de novo?(y/n)')))
+                                    if auxStr == 'n':
+                                        count = 1
+
+
+                                    
                                 
                             

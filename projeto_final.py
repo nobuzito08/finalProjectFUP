@@ -4,6 +4,7 @@ import random
 #Fazer split
 #comentar e mudar nomes de variaves para ficar mais legivel(em processo)
 #ver se o "ale" e realmente nessesario, ou se ele pode exisitr apenas no escopo da função
+#terminar o save e o load
 
 
 dinheiro = 50
@@ -45,8 +46,29 @@ def acrescentador (Aleatorio:int, Valores, Cards, Baralho, CartasSobrando:int):
     #retorna o vetorValores + valor da carta nova, e o vetorCard + hexcode da carta nova, depois atualiza o baralho para ficar sem a carta retirada e anota que o baralho tem uma carta a menos.
     return Valores, Cards, Baralho, CartasSobrando
 
+#TERERERMAAKSDNSADBOIASHDOQHOUIAHOFDAOI AQUI
+
+def load():
+    arquivo = open('Ranking.txt','r')
+    saves = arquivo.readlines()
+    return saves
 
 
+
+#Terminar:----------------------------
+def save(Saves, Nome, Dinheiro):
+    arq = open('Ranking.txt','w')
+    auxVetor = []
+    counter = 0
+    auxDicionario = {'nome': '{Nome}','dinheiro': Dinheiro}
+    for save in Saves:
+        if save['dinheiro'] > Dinheiro:
+            auxVetor.append(save)
+        elif counter == 0:
+            auxVetor.append(Dinheiro)
+            counter == counter + 1
+        else:
+            auxVetor.append(save)
 
 
 while dinheiro > 0:
