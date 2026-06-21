@@ -1,4 +1,5 @@
 joa;500
 joao;299
 Leo;120
+Caio;8
 arthur;0

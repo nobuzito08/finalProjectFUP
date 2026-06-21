@@ -1,4 +1,5 @@
 import random
+import os
 
 #Proximos passos(acho que o bruto finalmente acabou ;), foi bem dificl (meu deus nao acabou, o que ta dando errado) :
 #Fazer split
@@ -78,9 +79,16 @@ def decode(Lodados):
         auxVetor.append(auxDicio)
     return auxVetor
 
+#função para procurar o local do arquivo do ranking
+def busca():
+    caminhoDoCodigo = os.path.dirname(__file__)
+    caminhoDoRanking = os.path.join(caminhoDoCodigo, "RankingDoBlackJack.txt")
+    return caminhoDoRanking
+
 #pega os saves antigos
 def load():
-    arquivo = open("C:/Users/LEON/Documents/UFC/leaderBord/Ranking.txt",'r')
+    caminho = busca()
+    arquivo = open(caminho,'r')
     saves = arquivo.readlines()
     arquivo.close()
     return saves
@@ -92,8 +100,10 @@ def save(Saves, SaveAtual):
     #ok, isso demorou muito mais do que pensava para fazer, acabei precisando fazer algumas funçoes a mais pra fazer isso funcionar, vai da um trabalho esplicar o que tava pensando durante esses dias de maneira coerente.
     #vou tentar fazer bem passo a passo pra facilitar o entendimento, qualquer coisa desculpe
     
+    #achar o caminho do arquivo
+    pathway = busca()
     #abrindo o arquivo txt com os rankings
-    arq = open("C:/Users/LEON/Documents/UFC/leaderBord/Ranking.txt",'w')
+    arq = open(pathway,'w')
     
     #Vetor onde vai ficar a lista de saves antigos com o save novo no meio
     auxVetor = []
