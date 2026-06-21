@@ -1,1 +1,7 @@
-leon-15
+joa;500
+joao;500
+Abel;150
+leon;100
+leonardo;90
+LELECO;51
+Leon;15

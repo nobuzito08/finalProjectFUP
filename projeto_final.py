@@ -1,11 +1,15 @@
 import random
 
-#Proximos passos:
+#Proximos passos(acho que o bruto finalmente acabou ;), foi bem dificl (meu deus nao acabou, o que ta dando errado) :
 #Fazer split
 #comentar e mudar nomes de variaves para ficar mais legivel(em processo)
 #ver se o "ale" e realmente nessesario, ou se ele pode exisitr apenas no escopo da função
-#terminar o save e o load
-#fazer a funcao 'dealer' retornar o valor da carta, pra nao da problema
+#ta dando erra na função de save, tentei salvar um nome com 5 dinheiro e ele salvou com 150, ver isso amanha
+
+
+#AVISO!!!!!!
+#eu de vez em quando chamo dicionarios de bibliotecas, sempre que eu falei biblioteca aqui eu quis dizer dicionario, tentei da uma procurada por esses erros e acho que achei a maioria, mas posso ter deixado algum passar
+
 
 
 dinheiro = 50
@@ -28,7 +32,7 @@ def dealar(Aleatorio:int,Total:int):
         Total = Valor + Total
         
     #Retorna os pontos que vc ja tinha + carta nova, o hexcode da carta que vc tirou, e a poscição da carta no vetor
-    return Total, carta, Aleatorio
+    return Total, carta, Aleatorio, Valor
 
 #função para dar .append da nova carta para os vetores que guardam as cartas da sua mao e os valores dela, alem de tirar essa carta da bibilhoteca do baralho, para ela nao ser tirada de novo
 def acrescentador (Aleatorio:int, Valores, Cards, Baralho, CartasSobrando:int):
@@ -47,30 +51,101 @@ def acrescentador (Aleatorio:int, Valores, Cards, Baralho, CartasSobrando:int):
     #retorna o vetorValores + valor da carta nova, e o vetorCard + hexcode da carta nova, depois atualiza o baralho para ficar sem a carta retirada e anota que o baralho tem uma carta a menos.
     return Valores, Cards, Baralho, CartasSobrando
 
-#TERERERMAAKSDNSADBOIASHDOQHOUIAHOFDAOI AQUI
+#função para formatar os saves antigos + save atual
+def encode(AtualGeral):
+    #Variavel onde vai ficar o texto que posteriormente vai ser escrito no arquivo
+    RankingFormatado = ''
+    
+    #pegando cada biblioteca ('i') dentro do vetor com os saves antigos + o novo, e formatando para escrever no arquivo
+    for i in AtualGeral:
+        RankingFormatado += f"{i['nome']};{i['dinheiro']}\n"
+    return RankingFormatado
 
+#função para transformar em vetor e dicionarios o texto do arquivo com os saves antigos
+def decode(Lodados):
+    #vetor onde vai ficar os dicionarios com os saves
+    auxVetor = []
+    
+    #splitando e transformando em dicionario os dados no arquivo.txt com os rankings
+    for salvamentos in Lodados:
+        salvamentos = salvamentos.strip()
+        dados = salvamentos.split(';')
+        auxDicio = {
+            'nome' : dados[0],
+            'dinheiro' : int(dados[1])
+        }
+        
+        #adicionando o dicionario modificado com os dados do aquivo.txt a um vetor
+        auxVetor.append(auxDicio)
+    return auxVetor
+
+#pega os saves antigos
 def load():
-    arquivo = open('Ranking.txt','r')
+    arquivo = open("C:/Users/LEON/Documents/UFC/leaderBord/Ranking.txt",'r')
     saves = arquivo.readlines()
+    arquivo.close()
     return saves
 
 
 
-#Terminar:----------------------------
-def save(Saves, Nome, Dinheiro):
-    arq = open('Ranking.txt','w')
+#meu maior terror pesadelo de todos os tempos: função para salvar
+def save(Saves, SaveAtual):
+    #ok, isso demorou muito mais do que pensava para fazer, acabei precisando fazer algumas funçoes a mais pra fazer isso funcionar, vai da um trabalho esplicar o que tava pensando durante esses dias de maneira coerente.
+    #vou tentar fazer bem passo a passo pra facilitar o entendimento, qualquer coisa desculpe
+    
+    #abrindo o arquivo txt com os rankings
+    arq = open("C:/Users/LEON/Documents/UFC/leaderBord/Ranking.txt",'w')
+    
+    #Vetor onde vai ficar a lista de saves antigos com o save novo no meio
     auxVetor = []
+    
+    #contador pra saber aonde precisamos adicionar o nome do jogador atual na lista de saves, quando o dinheiro do jogador atual e maior do que o dinheiro do save pela primeira vez, ele adiciona o nome do jogador atual e logo depois adiciona o nome do jogador do save antigo, depois disso ele nunca mais adiciona o nome do jogador atual de novo, ele so segue adicionando os nomes e valores do resto dos jogadores do save antigo
     counter = 0
-    auxDicionario = {'nome': '{Nome}','dinheiro': Dinheiro}
-    for save in Saves:
-        if save['dinheiro'] > Dinheiro:
+    
+    #pega a informação do arquivo txt, arruma em um vetor de dicionarios, e depois adiciona na variavel 'savesDecodados'
+    SavesDecodados = decode(Saves)
+    
+    #para cada biblioteca com o nome e o dinheiro do jogador dentro do vetor com os saves antigos ele executa o que ta dentro desse for
+    for save in SavesDecodados:
+        
+        #se o dinheiro do jogador do save antigo for maior do que o atual, ele adiciona o dicionario do jogador antigo em um vetor (auxVetor)
+        if save['dinheiro'] > SaveAtual['dinheiro']:
             auxVetor.append(save)
+        
+        # se o dinheiro do jogador do save antigo for menor, e se o contador for igual a 0, adiciona o nome do jogador atual, e depois o nome do jogador antigo que o jogador atual foi comparado
         elif counter == 0:
-            auxVetor.append(Dinheiro)
-            counter == counter + 1
+            
+            #so adiciona o jogador novo se ele nao aparecer nos saves antigos, se nao fizer isso pode ficar duplicando a mesma pessoa varias vezes
+            if SaveAtual != save:
+                auxVetor.append(SaveAtual)
+                auxVetor.append(save)
+            
+            #se forem a mesma pessoa, so adiciona o nome antigo, pois assim so fica um nome no vetor final, e nao da pra ficar duplicando
+            else:
+                auxVetor.append(save)
+            
+            #contador agora e diferente de 1, agora mesmo se o dinheiro do jogador antigo for menor que o do jogador novo, no proximo loop do for o jogador novo nao vai ser adicionado de novo e a lista vai completar com os nomes que faltam
+            counter = counter + 1
+        
+        #completando o vetor com os nomes que faltam
         else:
             auxVetor.append(save)
+    
+    #formata o vetor de dicionarios em uma string para ser escrita no arquivo.txt
+    AtualEncodado = encode(auxVetor)
+    
+    #escreve a strig com todos os saves antigos mais o novo no arquivo
+    arq.write(AtualEncodado)
+    
+    #fecha o arquivo
+    arq.close()
 
+
+#nome do jogador
+nome = ''
+
+#perguntando o nome do jogador
+nome = str(input('Digite seu nome: '))
 
 while dinheiro > 0:
     #dicionario de todas as cartas(fiz as 5 primeiras e pedi pra IA fazer o resto do baralho, como nao pede nenhuma logica, sendo so trabalho bruto, achei inteligente fazer isso.)
@@ -174,9 +249,14 @@ while dinheiro > 0:
     
     #variavel para saber o que o jogador vai fazer ("hit", "duble", "hit and duble")
     acao = '0'
-
+    
+    #mais uma auxiliar para salvar o valor da carta retirada, posso procurar otimizar isso depois
+    auxValor = 0
+    
     #tela de entrada
     print('Bem vindo ao blackjack \U0001F0A1 \U0001F0B1 \U0001F0C1 \U0001F0D1')
+    
+    
 
     #enter pra iniciar o jogo
     start = input('"ENTER" pra jogar:')
@@ -184,7 +264,11 @@ while dinheiro > 0:
     
     #aposta
     while True:
-        aposta = int(input("Quanto vc aposta:"))
+        aposta = (input("Quanto vc aposta:"))
+        if aposta.strip() == '':
+            aposta = 0
+        else:
+            aposta = int(aposta)
         if aposta > dinheiro:
             print("Nao aposte mais do que tem")
         else:
@@ -192,21 +276,21 @@ while dinheiro > 0:
 
 
     #mostrar a pontuação da casa com uma carta
-    casa, auxStr, aux = dealar(ale, casa,)
+    casa, auxStr, aux, auxValor = dealar(ale, casa,)
     valoresCasa, cardCasa, cartas, numCartasSobrando = acrescentador(aux,valoresCasa,cardCasa,cartas,numCartasSobrando)
-    print (f"Casa: {cardCasa}({valoresCasa}), X")
+    print (f"Casa: {cardCasa}({auxValor}), X")
     
     #tirar a segunda carta e somar com o total da casa
-    casa, auxStr, aux = dealar(ale, casa)
+    casa, auxStr, aux, auxValor = dealar(ale, casa)
     valoresCasa, cardCasa, cartas, numCartasSobrando = acrescentador(aux,valoresCasa,cardCasa,cartas,numCartasSobrando)
 
     start = input("--->")
 
     #mostrar as duas primeiras cartas
-    player, auxStr, aux = dealar(ale, player)
+    player, auxStr, aux, auxValor = dealar(ale, player)
     valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
     print (f'Voce: {cardMao}({player})')
-    player, auxStr, aux = dealar(ale, player)
+    player, auxStr, aux, auxValor = dealar(ale, player)
     valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
     print (f'Voce: {cardMao}({valoresMao}), total:{player}')
     
@@ -231,9 +315,9 @@ while dinheiro > 0:
             case "1":
                 
                 #adicionar uma carta a mão
-                player, auxStr, aux = dealar(ale,player,)
+                player, auxStr, aux, auxValor = dealar(ale,player,)
                 valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
-                print(f'voce tirou um {auxStr}({cartas[aux]['valor']})')
+                print(f'voce tirou um {auxStr}({auxValor})')
             case "2":
                 
                 #dobra a aposta
@@ -242,9 +326,9 @@ while dinheiro > 0:
             case "3":
                 
                 #adiciona uma carta a mão e dobra a aposta
-                player, auxStr, aux = dealar(ale,player,)
+                player, auxStr, aux, auxValor = dealar(ale,player,)
                 valoresMao, cardMao, cartas, numCartasSobrando = acrescentador(aux,valoresMao,cardMao,cartas,numCartasSobrando)
-                print(f'voce tirou um {auxStr}({cartas[aux]['valor']})')
+                print(f'voce tirou um {auxStr}({auxValor})')
                 aposta = aposta * 2
                 print("sua aposta agora é: ", aposta)
 
@@ -291,8 +375,8 @@ while dinheiro > 0:
         start = input("--->")
 
         #adicionar uma carta a mao da casa
-        casa,auxStr, aux = dealar(ale,casa)
-        print (f'casa tirou {auxStr}({cartas[aux]['valor']})')
+        casa,auxStr, aux, auxValor = dealar(ale,casa)
+        print (f'casa tirou {auxStr}({auxValor})')
         print (f'total casa: {casa}, ({cardCasa}, {valoresCasa})')
 
     #teste caso casa perdeu
@@ -330,6 +414,24 @@ if dinheiro == 0:
     print("voce perdeu todo seu dinheiro, estao te explusando do cassino, vai trabalhar.")
     print('...')
     print('')
+
+#biblioteca com o nome e o dinheiro do jogador atual
+saveAtual = {'nome': nome, 'dinheiro' : dinheiro}
+
+#puxando os saves antigos
+savesAntigos = load()
+
+#usando a função mais do mal que exite para salvar o jogo
+save(savesAntigos, saveAtual)
+
+#pegando os saves para mostrar uma leaderbord
+decodados = decode(savesAntigos)
+print ('leaderbord: ')
+
+#mostrando bonitinho a leaderbord
+for i in decodados:
+    print(f'Nome: {i['nome']}, Dinheiro: {i['dinheiro']}')
+
 
 print("obrigado por jogar")
 
