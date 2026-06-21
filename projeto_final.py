@@ -5,6 +5,7 @@ import random
 #comentar e mudar nomes de variaves para ficar mais legivel(em processo)
 #ver se o "ale" e realmente nessesario, ou se ele pode exisitr apenas no escopo da função
 #terminar o save e o load
+#fazer a funcao 'dealer' retornar o valor da carta, pra nao da problema
 
 
 dinheiro = 50
