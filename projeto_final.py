@@ -4,7 +4,6 @@ import random
 #Fazer split
 #comentar e mudar nomes de variaves para ficar mais legivel(em processo)
 #ver se o "ale" e realmente nessesario, ou se ele pode exisitr apenas no escopo da função
-#ta dando erra na função de save, tentei salvar um nome com 5 dinheiro e ele salvou com 150, ver isso amanha
 
 
 #AVISO!!!!!!

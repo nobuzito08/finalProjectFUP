@@ -1,3 +1,4 @@
 joa;500
 joao;299
+Leo;120
 arthur;0
