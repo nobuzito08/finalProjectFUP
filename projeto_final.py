@@ -131,6 +131,10 @@ def save(Saves, SaveAtual):
         else:
             auxVetor.append(save)
     
+    #salvar se for o ulitmo 
+    if counter == 0:
+        auxVetor.append(saveAtual)
+    
     #formata o vetor de dicionarios em uma string para ser escrita no arquivo.txt
     AtualEncodado = encode(auxVetor)
     
@@ -298,7 +302,7 @@ while dinheiro > 0:
     if player == 21:
         print(f"VOCE GANHOU COM UM BLACKJACK")
         print(cardMao)
-        dinheiro = dinheiro + aposta * 2
+        dinheiro = dinheiro + aposta 
         
         #reiniciar ou terminar o jogo
         acao = input("jogar de novo? y/n: ")
