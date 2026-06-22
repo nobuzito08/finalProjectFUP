@@ -153,6 +153,11 @@ def save(Saves, SaveAtual):
     #fecha o arquivo
     arq.close()
 
+#criando o arquivo para caso nao ja tenha
+caminho = busca()
+aquivo = open(caminho,'w')
+aquivo.close()
+
 
 #nome do jogador
 nome = ''
